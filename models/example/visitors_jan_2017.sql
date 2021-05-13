@@ -8,7 +8,7 @@ with visitors as (
         `date` as visitDate
 
     from `bigquery-public-data.google_analytics_sample.ga_sessions_*`
-    WHERE _table_suffix  between '20170101' AND '20170131'
+    WHERE _table_suffix  between '20170101' and '20170131'
 )
 
 select * from visitors

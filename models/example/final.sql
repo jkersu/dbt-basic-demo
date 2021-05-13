@@ -15,8 +15,9 @@ feb_orders as (
             hits.type
         from `bigquery-public-data.google_analytics_sample.ga_sessions_*`, unnest(hits) as hits
 
-        WHERE _table_suffix between '20170201' AND '20170229'
-        AND hits.transaction.transactionId IS NOT NULL
+        WHERE _table_suffix between '20170201' and '20170229'
+        and hits.transaction.transactionId is not null
+        and hits.transaction.transactionRevenue is not null
 ),
 
 final as (
