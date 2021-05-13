@@ -1,6 +1,6 @@
 with visitors as (
-
     select
+        distinct concat(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id,
         fullVisitorId as visitor_id,
         visitStartTime as visit_start,
         device.deviceCategory as device_type,

@@ -8,16 +8,30 @@ with jan_users as (
 ),
 
 feb_orders as (
+    select
+            distinct hits.transaction.transactionId as order_id,
+            fullVisitorId as visitor_id,
+            hits.transaction.transactionRevenue,
+            hits.type
+        from `bigquery-public-data.google_analytics_sample.ga_sessions_*`, unnest(hits) as hits
 
-    select * from {{ ref('feb_orders')}}
+        WHERE _table_suffix between '20170201' AND '20170229'
+        AND hits.transaction.transactionId IS NOT NULL
 ),
 
 final as (
      select
+     distinct feb_orders.order_id,
      feb_orders.visitor_id,
-     feb_orders.order_id,
      {{ integer_to_dollar('feb_orders.transactionRevenue') }} as amount_usd
     
      from jan_users inner join feb_orders using (visitor_id)
  )
+
 select * from final
+
+
+-- dbt run
+-- dbt test
+-- dbt docs generate 
+-- dbt docs serve

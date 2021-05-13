@@ -1,21 +1,57 @@
-
 version: 2
 
-# models:
-#     - name: my_first_dbt_model
-#       description: "A starter dbt model"
-#       columns:
-#           - name: id
-#             description: "The primary key for this table"
-#             tests:
-#                 - unique
-#                 - not_null
+models:
+  - name: visitors_jan_2017
+    description: >
+      This table contains a list of visitors who visited the website in Jan 2017.
+    columns:
+      - name: session_id
+        description: "This column is the unique identifier for a session visit."
+        tests:
+          - unique
+          - not_null
+      - name: visitor_id
+        description: "This unique ID of a visitor."
+        tests:
+          - not_null
+      - name: visit_start
+        description: "The timestamp (expressed as POSIX time) of when a session started."
+        tests:
+          - not_null
+      - name: device_type
+        description: "The type of device used."
+        tests:
+          - not_null
+      - name: browser
+        description: "The browser used to visit a site."
+        tests:
+          - not_null
+      - name: visitDate
+        description: "The date of when a visitor visited in YYYYMMDD format."
+        tests:
+          - not_null
 
-#     - name: my_second_dbt_model
-#       description: "A starter dbt model"
-#       columns:
-#           - name: id
-#             description: "The primary key for this table"
-#             tests:
-#                 - unique
-#                 - not_null
+  - name: chrome_users_jan
+    description: >
+      This table contains a list of users who visited the website in January 2017
+      using a Chrome browser.
+    columns:
+      - name: browser
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Chrome']
+              
+  - name: final
+    description: >
+      This table includes a list of orders and users who completed an order in
+      Feb 2017. Orders / Users are only included in this table if a user previously
+      visited the website in Jan 2017 using a Chrome browser.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: visitor_id
+        description: "ID of the visitor"
+        tests:
+          - not_null
